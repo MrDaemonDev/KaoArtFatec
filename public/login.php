@@ -1,3 +1,18 @@
+<?php
+    session_start();
+
+    if (isset($_SESSION['user_id'])) {
+
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+            header("Location: admin/dashboard.php");
+            exit;
+        } else {
+            header("Location: dashboard.php");
+            exit;
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -30,14 +45,6 @@
       </p>
     </form>
   </div>
-  <script>
-    const passarinho = document.getElementById('passarinho');
-
-    passarinho.addEventListener('dblclick', () => {
-
-      window.location.href = 'login_adm.php';
-    });
-  </script>
 
 </body>
 

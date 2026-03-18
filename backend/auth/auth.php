@@ -30,8 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: ../../public/dashboard.php");
             }
 
-            exit;
-
         } else {
             header("Location: ../../public/login.php?erro=1");
             exit;
