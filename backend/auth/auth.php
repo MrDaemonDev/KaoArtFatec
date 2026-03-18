@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include "../config/database.php";
+include "../../config/database.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -25,20 +25,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['role'] = $user['role'];
 
             if ($user['role'] == 'admin') {
-                header("Location: ../public/admin/dashboard.php");
+                header("Location: ../../public/admin/dashboard.php");
             } else {
-                header("Location: ../public/dashboard.php");
+                header("Location: ../../public/dashboard.php");
             }
 
             exit;
 
         } else {
-            header("Location: test.php");
+            header("Location: ../../public/login.php?erro=1");
             exit;
         }
 
     } else {
-        header("Location: test.php");
+        header("Location: ../../public/login.php?erro=1");
         exit;
     }
 }

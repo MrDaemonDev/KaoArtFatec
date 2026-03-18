@@ -13,7 +13,7 @@
   <div class="login-container">
     <img src="img/etc/passaroKao.png" alt="Logo KaoArt" class="logo-login" id="passarinho" />
     <h1>Login</h1>
-    <form id="loginForm" action="../backend/auth.php" method="POST">
+    <form id="loginForm" action="../backend/auth/auth.php" method="POST">
       <div class="input-group">
         <label for="username">Usuário</label>
         <input type="text" id="username" name="username" placeholder="Digite seu usuário" required />
@@ -25,7 +25,9 @@
       </div>
 
       <button type="submit">Entrar</button>
-      <p id="message"></p>
+      <p id="message">
+          <?php if (isset($_GET['erro'])) echo "Usuário ou senha inválidos"; ?>
+      </p>
     </form>
   </div>
   <script>
