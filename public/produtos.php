@@ -88,7 +88,7 @@
             <div class="card-body text-center d-flex flex-column">
               <h5 class="card-title fs-6 fw-bold">Camiseta Premium</h5>
               <p class="card-text text-muted small flex-grow-1">100% algodão, confortável e durável.</p>
-              <p class="fw-bold text-roxo mb-3">R$ 49,90</p>
+              <p class="fw-bold text-roxo mb-3 preco">R$ 49,90</p>
               <a href="#" class="btn btn-primary btn-sm w-100 add-to-cart mt-auto">Adicionar ao Carrinho</a>
             </div>
           </div>
@@ -103,7 +103,7 @@
             <div class="card-body text-center d-flex flex-column">
               <h5 class="card-title fs-6 fw-bold">Cartões de visita</h5>
               <p class="card-text text-muted small flex-grow-1">Para você divugar o que quiser!!!</p>
-              <p class="fw-bold text-roxo mb-3">R$ 19,90 <span class="small text-muted fw-normal">- 200 un</span></p>
+              <p class="fw-bold text-roxo mb-3 preco">R$ 19,90 <span class="small text-muted fw-normal">- 200 un</span></p>
               <a href="carrinho.php" class="btn btn-primary btn-sm w-100 add-to-cart mt-auto">Adicionar ao Carrinho</a>
             </div>
           </div>
@@ -118,7 +118,7 @@
             <div class="card-body text-center d-flex flex-column">
               <h5 class="card-title fs-6 fw-bold">Caneca Personalizada</h5>
               <p class="card-text text-muted small flex-grow-1">Porcelana com impressão de alta qualidade.</p>
-              <p class="fw-bold text-roxo mb-3">R$ 29,90</p>
+              <p class="fw-bold text-roxo mb-3 preco">R$ 29,90</p>
               <a href="carrinho.php" class="btn btn-primary btn-sm w-100 add-to-cart mt-auto">Adicionar ao Carrinho</a>
             </div>
           </div>
@@ -132,7 +132,7 @@
             <div class="card-body text-center d-flex flex-column">
               <h5 class="card-title fs-6 fw-bold">Mascaras</h5>
               <p class="card-text text-muted small flex-grow-1">Para os seus dias de gripe!</p>
-              <p class="fw-bold text-roxo mb-3">R$ 14,90</p>
+              <p class="fw-bold text-roxo mb-3 preco">R$ 14,90</p>
               <a href="carrinho.php" class="btn btn-primary btn-sm w-100 add-to-cart mt-auto">Adicionar ao Carrinho</a>
             </div>
           </div>
@@ -148,7 +148,7 @@
               <h5 class="card-title fs-6 fw-bold">Caneca Personalizada</h5>
               <p class="card-text text-muted small flex-grow-1">Porcelana com impressão de alta qualidade do Superman.
               </p>
-              <p class="fw-bold text-roxo mb-3">R$ 29,90</p>
+              <p class="fw-bold text-roxo mb-3 preco">R$ 29,90</p>
               <a href="carrinho.php" class="btn btn-primary btn-sm w-100 add-to-cart mt-auto">Adicionar ao Carrinho</a>
             </div>
           </div>
@@ -163,7 +163,7 @@
             <div class="card-body text-center d-flex flex-column">
               <h5 class="card-title fs-6 fw-bold">Caneca Personalizada</h5>
               <p class="card-text text-muted small flex-grow-1">Caneca de Porcelana.</p>
-              <p class="fw-bold text-roxo mb-3">R$ 29,90</p>
+              <p class="fw-bold text-roxo mb-3 preco">R$ 29,90</p>
               <a href="carrinho.php" class="btn btn-primary btn-sm w-100 add-to-cart mt-auto">Adicionar ao Carrinho</a>
             </div>
           </div>
@@ -178,7 +178,7 @@
             <div class="card-body text-center d-flex flex-column">
               <h5 class="card-title fs-6 fw-bold">Cartões de visita</h5>
               <p class="card-text text-muted small flex-grow-1">Para você divugar o que quiser!!!</p>
-              <p class="fw-bold text-roxo mb-3">R$ 19,90 <span class="small text-muted fw-normal">- 200 un</span></p>
+              <p class="fw-bold text-roxo mb-3 preco">R$ 19,90 <span class="small text-muted fw-normal">- 200 un</span></p>
               <a href="carrinho.php" class="btn btn-primary btn-sm w-100 add-to-cart mt-auto">Adicionar ao Carrinho</a>
             </div>
           </div>
@@ -193,7 +193,7 @@
             <div class="card-body text-center d-flex flex-column">
               <h5 class="card-title fs-6 fw-bold">Camisa Personalizada</h5>
               <p class="card-text text-muted small flex-grow-1">Camisa de algodão com estampa personalizada.</p>
-              <p class="fw-bold text-roxo mb-3">R$ 39,90</p>
+              <p class="fw-bold text-roxo mb-3 preco">R$ 39,90</p>
               <a href="carrinho.php" class="btn btn-primary btn-sm w-100 add-to-cart mt-auto">Adicionar ao Carrinho</a>
             </div>
           </div>
@@ -208,7 +208,7 @@
             <div class="card-body text-center d-flex flex-column">
               <h5 class="card-title fs-6 fw-bold">Caneca Personalizada</h5>
               <p class="card-text text-muted small flex-grow-1">Porcelana com impressão de alta qualidade.</p>
-              <p class="fw-bold text-roxo mb-3">R$ 29,90</p>
+              <p class="fw-bold text-roxo mb-3 preco">R$ 29,90</p>
               <a href="carrinho.php" class="btn btn-primary btn-sm w-100 add-to-cart mt-auto">Adicionar ao Carrinho</a>
             </div>
           </div>
@@ -223,7 +223,7 @@
             <div class="card-body text-center d-flex flex-column">
               <h5 class="card-title fs-6 fw-bold">Máscara Personalizada</h5>
               <p class="card-text text-muted small flex-grow-1">Máscara de tecido com impressão de alta qualidade.</p>
-              <p class="fw-bold text-roxo mb-3">R$ 29,90</p>
+              <p class="fw-bold text-roxo mb-3 preco">R$ 29,90</p>
               <a href="carrinho.php" class="btn btn-primary btn-sm w-100 add-to-cart mt-auto">Adicionar ao Carrinho</a>
             </div>
           </div>
@@ -238,7 +238,7 @@
             <div class="card-body text-center d-flex flex-column">
               <h5 class="card-title fs-6 fw-bold">Caneca Personalizada</h5>
               <p class="card-text text-muted small flex-grow-1">Porcelana com impressão de alta qualidade.</p>
-              <p class="fw-bold text-roxo mb-3">R$ 29,90</p>
+              <p class="fw-bold text-roxo mb-3 preco">R$ 29,90</p>
               <a href="carrinho.php" class="btn btn-primary btn-sm w-100 add-to-cart mt-auto">Adicionar ao Carrinho</a>
             </div>
           </div>
@@ -253,7 +253,7 @@
             <div class="card-body text-center d-flex flex-column">
               <h5 class="card-title fs-6 fw-bold">Cartões de visita</h5>
               <p class="card-text text-muted small flex-grow-1">Para você divugar o que quiser!!!</p>
-              <p class="fw-bold text-roxo mb-3">R$ 19,90 <span class="small text-muted fw-normal">- 200 un</span></p>
+              <p class="fw-bold text-roxo mb-3 preco">R$ 19,90 <span class="small text-muted fw-normal">- 200 un</span></p>
               <a href="carrinho.php" class="btn btn-primary btn-sm w-100 add-to-cart mt-auto">Adicionar ao Carrinho</a>
             </div>
           </div>
