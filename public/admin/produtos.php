@@ -1,6 +1,12 @@
 <?php
 
+require '../../backend/auth/validAdmin.php';
+require '../../config/database.php';
+
 $baseURL = '.';
+
+$sql = "SELECT * FROM produtos ORDER BY id DESC";
+$resultado = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -9,12 +15,12 @@ $baseURL = '.';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Produtos - Admin KaoArt</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
+
     <style>
-      
+
         .upload-area {
             border: 2px dashed #dee2e6;
             border-radius: 8px;
@@ -24,7 +30,7 @@ $baseURL = '.';
             transition: all 0.2s;
         }
         .upload-area:hover { border-color: #5e219c; background-color: rgba(94, 33, 156, 0.05); }
-        
+
         .btn-primario-kao { background-color: #5e219c; color: white; border: none; }
         .btn-primario-kao:hover { background-color: #4a197c; color: white; }
     </style>
@@ -32,11 +38,11 @@ $baseURL = '.';
 <body>
 
 <div class="wrapper">
-    
+
     <?php include("../../includes/sidebar.php"); ?>
 
     <div class="main-content">
-        
+
         <header class="top-header p-3 px-4 d-flex justify-content-between align-items-center shadow-sm">
             <div class="search-wrapper flex-grow-1">
                 <i class="bi bi-search"></i>
@@ -51,13 +57,13 @@ $baseURL = '.';
         </header>
 
         <main class="scrollable-content">
-            
+
             <div class="d-flex justify-content-between align-items-end mb-4">
                 <div>
                     <h1 class="h3 text-dark mb-1">Gestão de Produtos</h1>
                     <p class="text-muted mb-0">Gerencie o catálogo de produtos da loja</p>
                 </div>
-                
+
                 <button class="btn btn-primario-kao px-4 py-2" data-bs-toggle="modal" data-bs-target="#modalNovoProduto">
                     <i class="bi bi-plus-lg me-2"></i> Adicionar Novo Produto
                 </button>
@@ -76,18 +82,19 @@ $baseURL = '.';
                             </tr>
                         </thead>
                         <tbody class="border-top-0">
+                        <?php while ($produto = mysqli_fetch_assoc($resultado)): ?>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="d-flex align-items-center gap-3">
-                                        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&h=200&fit=crop" alt="Camiseta Personalizada Básica" class="rounded" style="width: 48px; height: 48px; object-fit: cover;">
-                                        <span class="text-dark fw-medium">Camiseta Personalizada Básica</span>
+                                        <img src="../<?php echo $produto['imagem']; ?>" alt="Camiseta Personalizada Básica" class="rounded" style="width: 48px; height: 48px; object-fit: cover;">
+                                        <span class="text-dark fw-medium"><?php echo $produto['nome']; ?></span>
                                     </div>
                                 </td>
-                                <td class="text-muted">Camisetas</td>
-                                <td class="text-dark fw-semibold">R$ 59,90</td>
+                                <td class="text-muted"><?php echo $produto['categoria']; ?></td>
+                                <td class="text-dark fw-semibold">R$ <?php echo $produto['preco']; ?></td>
                                 <td>
                                     <span class="badge bg-success bg-opacity-10 text-success border-0 rounded px-2 py-1">
-                                        45 unid.
+                                        <?php echo $produto['unidade']; ?>
                                     </span>
                                 </td>
                                 <td class="text-end px-4">
@@ -98,76 +105,10 @@ $baseURL = '.';
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <img src="https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=200&h=200&fit=crop" alt="Caneca Mágica Personalizada" class="rounded" style="width: 48px; height: 48px; object-fit: cover;">
-                                        <span class="text-dark fw-medium">Caneca Mágica Personalizada</span>
-                                    </div>
-                                </td>
-                                <td class="text-muted">Canecas</td>
-                                <td class="text-dark fw-semibold">R$ 39,90</td>
-                                <td>
-                                    <span class="badge bg-danger bg-opacity-10 text-danger border-0 rounded px-2 py-1">
-                                        8 unid.
-                                    </span>
-                                </td>
-                                <td class="text-end px-4">
-                                    <button class="btn btn-sm btn-light text-primary me-1" title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-light text-danger" title="Excluir">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <img src="https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=200&h=200&fit=crop" alt="Almofada Decorativa 40x40" class="rounded" style="width: 48px; height: 48px; object-fit: cover;">
-                                        <span class="text-dark fw-medium">Almofada Personalizada</span>
-                                    </div>
-                                </td>
-                                <td class="text-muted">Almofada</td>
-                                <td class="text-dark fw-semibold">R$ 49,90</td>
-                                <td>
-                                    <span class="badge bg-success bg-opacity-10 text-success border-0 rounded px-2 py-1">
-                                        12 unid.
-                                    </span>
-                                </td>
-                                <td class="text-end px-4">
-                                    <button class="btn btn-sm btn-light text-primary me-1" title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-light text-danger" title="Excluir">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=200&h=200&fit=crop" alt="Mousepad Gamer Personalizado" class="rounded" style="width: 48px; height: 48px; object-fit: cover;">
-                                        <span class="text-dark fw-medium">Mousepad Gamer Personalizado</span>
-                                    </div>
-                                </td>
-                                <td class="text-muted">Acessórios</td>
-                                <td class="text-dark fw-semibold">R$ 34,90</td>
-                                <td>
-                                    <span class="badge bg-success bg-opacity-10 text-success border-0 rounded px-2 py-1">
-                                        67 unid.
-                                    </span>
-                                </td>
-                                <td class="text-end px-4">
-                                    <button class="btn btn-sm btn-light text-primary me-1" title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-light text-danger" title="Excluir">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            </tr
+
+                        <?php endwhile; ?>
+
                         </tbody>
                     </table>
                 </div>
@@ -180,16 +121,16 @@ $baseURL = '.';
 <div class="modal fade" id="modalNovoProduto" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content border-0 shadow">
-            
+
             <div class="modal-header border-bottom-0 pb-0 pt-4 px-4">
                 <h5 class="modal-title fw-bold" id="modalLabel">Novo Produto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
-            
+
             <form action="#" method="POST" enctype="multipart/form-data" id="formNovoProduto">
                 <div class="modal-body p-4">
                     <div class="row g-4">
-                        
+
                         <div class="col-12">
                             <label class="form-label fw-medium text-dark">Nome do Produto</label>
                             <input type="text" class="form-control" name="nome" placeholder="Ex: Camiseta Personalizada Básica" requiredaria-label="Nome do Produto">
@@ -228,13 +169,13 @@ $baseURL = '.';
 
                     </div>
                 </div>
-                
+
                 <div class="modal-footer border-top-0 pt-0 pb-4 px-4">
                     <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primario-kao px-4">Salvar Produto</button>
                 </div>
             </form>
-            
+
         </div>
     </div>
 </div>
