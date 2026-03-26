@@ -1,5 +1,9 @@
 <?php
+
+require '../../backend/auth/validAdmin.php';
+
 $baseURL = '.';
+
 ?>
 
 <!DOCTYPE html>
