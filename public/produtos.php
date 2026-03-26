@@ -67,7 +67,7 @@
     <div class="container">
         <div class="mb-4 text-center">
             <button class="btn btn-outline-secondary filtro active btn-sm m-1" data-filter="all">Todos</button>
-            <button class="btn btn-outline-secondary filtro btn-sm m-1" data-filter="blusa">Apenas Blusas</button>
+            <button class="btn btn-outline-secondary filtro btn-sm m-1" data-filter="camiseta">Apenas Blusas</button>
             <button class="btn btn-outline-secondary filtro btn-sm m-1" data-filter="caneca">Apenas Canecas</button>
             <button class="btn btn-outline-secondary filtro btn-sm m-1" data-filter="cartao">Apenas Cartões</button>
             <button class="btn btn-outline-secondary filtro btn-sm m-1" data-filter="mascara">Apenas Máscaras</button>
