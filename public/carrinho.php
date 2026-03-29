@@ -1,3 +1,8 @@
+<?php 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -64,7 +69,42 @@
                         target="_blank">
                         <i class="bi bi-instagram"></i>
                     </a>
+                    
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                    <div class="d-flex align-items-center gap-3 ms-3 border-start ps-4">
+                        <button class="btn btn-outline-light btn-sm position-relative" type="button">
+                            <i class="bi bi-bell"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                <span class="visually-hidden">Novos alertas</span>
+                            </span>
+                        </button>
+                        
+                        <div class="dropdown ms-1">
+                            <button class="d-flex align-items-center text-white border-0 bg-transparent p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="outline: none;">
+                                <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 32px; height: 32px; background-color: #5e219c; font-size: 0.85rem;">
+                                    AD
+                                </div>
+                                <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+                                <li>
+                                    <a class="dropdown-item py-2 text-dark" href="<?php echo isset($baseURL) ? $baseURL : '../public'; ?>/configuracao.php">
+                                        <i class="bi bi-gear me-2"></i>Configurações
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger py-2" href="<?php echo isset($baseURL) ? $baseURL : '../public'; ?>/../backend/auth/logout.php">
+                                        <i class="bi bi-box-arrow-right me-2 text-danger"></i>Sair
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                 </div>
+
+                
             </div>
         </div>
     </nav>
@@ -128,7 +168,26 @@ function carregarCarrinho() {
     }
 
     // Renderiza cada item
-    lista.innerHTML = carrinho.map((item, index) => `
+    lista.innerHTML = carrinho.map((item, index) => {
+        let isRoupa = item.nome.toLowerCase().includes('camiseta') || item.nome.toLowerCase().includes('blusa') || item.nome.toLowerCase().includes('moletom');
+        let selectTamanho = '';
+        
+        if (isRoupa) {
+            selectTamanho = `
+                <div class="mt-2">
+                    <select class="form-select form-select-sm tamanho-roupa" data-index="${index}" style="max-width: 120px; border-color: #6f2da8; outline-color: #6f2da8;" required>
+                        <option value="" ${!item.tamanho ? 'selected' : ''}>Tamanho...</option>
+                        <option value="PP" ${item.tamanho === 'PP' ? 'selected' : ''}>PP</option>
+                        <option value="P" ${item.tamanho === 'P' ? 'selected' : ''}>P</option>
+                        <option value="M" ${item.tamanho === 'M' ? 'selected' : ''}>M</option>
+                        <option value="G" ${item.tamanho === 'G' ? 'selected' : ''}>G</option>
+                        <option value="GG" ${item.tamanho === 'GG' ? 'selected' : ''}>GG</option>
+                    </select>
+                </div>
+            `;
+        }
+
+        return `
         <div class="card mb-3 shadow-sm">
             <div class="row g-0 align-items-center p-3">
                 <div class="col-3 text-center">
@@ -140,6 +199,7 @@ function carregarCarrinho() {
                     <p class="text-roxo fw-bold mb-0">
                         R$ ${item.preco.toFixed(2).replace('.', ',')}
                     </p>
+                    ${selectTamanho}
                 </div>
                 <div class="col-2 text-center">
                     <!-- Botões de quantidade -->
@@ -162,7 +222,8 @@ function carregarCarrinho() {
                 </div>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 
     // Calcula total
     const subtotal = carrinho.reduce((acc, p) => acc + p.preco * p.quantidade, 0);
@@ -176,6 +237,16 @@ function carregarCarrinho() {
     document.getElementById('total').textContent =
         'R$ ' + total.toFixed(2).replace('.', ',');
 }
+
+// Escuta a seleção de tamanho e salva no localStorage
+document.addEventListener('change', function(e) {
+    if (e.target.classList.contains('tamanho-roupa')) {
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        let index = e.target.getAttribute('data-index');
+        carrinho[index].tamanho = e.target.value;
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    }
+});
 
 // Muda quantidade 
 function mudarQtd(index, delta) {
@@ -212,6 +283,17 @@ function finalizarCompra() {
         alert('Seu carrinho está vazio!');
         return;
     }
+
+    // Validar se roupas possuem tamanho selecionado
+    const selectsTamanho = document.querySelectorAll('.tamanho-roupa');
+    for (let select of selectsTamanho) {
+        if (!select.value) {
+            alert('Por favor, é obrigatório selecionar o tamanho de todas as roupas antes de finalizar a compra!');
+            select.focus();
+            return;
+        }
+    }
+
     // Por enquanto mostra alerta — depois você integra com PHP/banco
     alert('Pedido realizado com sucesso! 🎉');
     localStorage.removeItem('carrinho');
@@ -224,7 +306,7 @@ carregarCarrinho();
 
     <!-- Rodapé -->
     <footer class="footer">
-        <p>&copy; KaoArt 2025. Todos os direitos reservados.</p>
+        <p>&copy; KaoArt 2026. Todos os direitos reservados.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

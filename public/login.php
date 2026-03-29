@@ -7,7 +7,7 @@
             header("Location: admin/dashboard.php");
             exit;
         } else {
-            header("Location: dashboard.php");
+            header("Location: produtos.php");
             exit;
         }
     }
@@ -42,6 +42,9 @@
       <button type="submit">Entrar</button>
       <p id="message">
           <?php if (isset($_GET['erro'])) echo "Usuário ou senha inválidos"; ?>
+      </p>
+      <p class="cadastro-link">
+          Não tem conta? <a href="cadastro.php">Cadastre-se</a>
       </p>
     </form>
   </div>

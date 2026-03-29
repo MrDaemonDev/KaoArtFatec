@@ -98,9 +98,13 @@ $baseURL = '.';
                 <i class="bi bi-search"></i>
                 <input type="text" class="search-bar" placeholder="Buscar...">
             </div>
+
             <div class="d-flex align-items-center gap-4 ms-3 border-start ps-4">
                 <button class="btn btn-light position-relative border-0 rounded-circle p-2">
                     <i class="bi bi-bell fs-5"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                        <span class="visually-hidden">Novos alertas</span>
+                    </span>
                 </button>
                 <div class="avatar-circle" style="background-color: #5e219c;">AD</div>
             </div>

@@ -44,6 +44,10 @@ body {
   color: var(--white) !important;
 }
 
+.navbar .dropdown-menu .bi {
+  color: inherit !important;
+}
+
 .navbar .nav-link.active {
   font-weight: 600;
   text-decoration: underline;

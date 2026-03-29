@@ -141,17 +141,17 @@ $adminPages = [
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link <?php echo $currentAdminPage == 'artes.php' ? 'active' : ''; ?>" href="artes.php">
                     <i class="bi bi-image me-2"></i> Aprovação de Artes
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link <?php echo $currentAdminPage == 'estoque.php' ? 'active' : ''; ?>" href="estoque.php">
                     <i class="bi bi-shop me-2"></i> Estoque
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link <?php echo $currentAdminPage == 'clientes.php' ? 'active' : ''; ?>" href="clientes.php">
                     <i class="bi bi-people me-2"></i> Clientes
                 </a>
             </li>

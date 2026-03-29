@@ -40,7 +40,7 @@ CREATE TABLE produtos
 
 INSERT INTO produtos (nome, descricao, preco, categoria, imagem, unidade)
 VALUES ('Camiseta Premium', '100% algodão, confortável e durável.', 49.90, 'camiseta', 'img/roupas/camisa6t.png', NULL),
-       ('Camisa Personalizada', 'Camisa com estampa personalizada.', 39.90, 'camiseta', 'img/roupas/camisa5.png', NULL),
+       ('Caneca Personalizada', 'Caneca com estampa personalizada.', 39.90, 'caneca', 'img/caneca/caneca2.jpeg', NULL),
        ('Cartão de Visita', 'Ideal para divulgação.', 19.90, 'cartao', 'img/cartao/cartao1.png', '200 un'),
        ('Caneca Personalizada', 'Porcelana com alta qualidade.', 29.90, 'caneca', 'img/caneca/caneca1.jpeg', NULL),
        ('Máscara Personalizada', 'Máscara de tecido.', 29.90, 'mascara', 'img/mascara/mascara3.png', NULL);

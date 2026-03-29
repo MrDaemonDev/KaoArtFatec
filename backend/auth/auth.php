@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($user['role'] == 'admin') {
                 header("Location: ../../public/admin/dashboard.php");
             } else {
-                header("Location: ../../public/dashboard.php");
+                header("Location: ../../public/produtos.php");
             }
 
         } else {

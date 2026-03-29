@@ -65,6 +65,23 @@ button:hover {
   font-weight: bold;
 }
 
+.cadastro-link {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #666;
+}
+
+.cadastro-link a {
+  color: #5E219C;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cadastro-link a:hover {
+  text-decoration: underline;
+  color: #7c3aad;
+}
 
 .logo-login {
   position: absolute;

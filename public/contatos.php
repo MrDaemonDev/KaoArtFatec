@@ -84,7 +84,7 @@
 
 
 <footer class=" text-light text-center py-3">
-  &copy; KaoArt 2025. Todos os direitos reservados.
+  &copy; KaoArt 2026. Todos os direitos reservados.
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

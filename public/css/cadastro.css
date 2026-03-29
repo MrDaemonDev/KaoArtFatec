@@ -1,0 +1,310 @@
+
+body {
+    background-color: #F8F9FA;
+    min-height: 100vh;
+}
+
+.cadastro-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+.cadastro-sidebar {
+    background: linear-gradient(135deg, #b77df0 0%, #7c3aad 50%, #422b6b 100%);
+    color: white;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 45%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.cadastro-sidebar h2 {
+    font-size: 2.5rem;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.cadastro-sidebar p {
+    font-size: 1.1rem;
+    opacity: 0.95;
+    margin-bottom: 0;
+}
+
+
+.cadastro-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    overflow-y: auto;
+    margin-left: 45%;
+}
+
+.cadastro-form-wrapper {
+    width: 100%;
+    max-width: 500px;
+}
+
+.cadastro-form-header {
+    margin-bottom: 2rem;
+}
+
+.cadastro-form-header h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.cadastro-form-header p {
+    color: #666;
+    margin-bottom: 0;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.form-control {
+    padding-left: 38px;
+    height: 45px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+
+.form-control:focus {
+    border-color: #5e219c;
+    box-shadow: 0 0 0 0.2rem rgba(94, 33, 156, 0.1);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+}
+
+
+.password-toggle:hover {
+    color: #333;
+}
+
+.form-check {
+    margin: 1.5rem 0;
+}
+
+
+.form-check-input {
+    margin-top: 0.3rem;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: #5e219c;
+    border-color: #5e219c;
+}
+
+.form-check-label {
+    color: #666;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+.form-check-label a {
+    color: #5e219c;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-check-label a:hover {
+    text-decoration: underline;
+}
+
+.btn-cadastro {
+    width: 100%;
+    height: 48px;
+    background-color: #5e219c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-cadastro:hover {
+    background-color: #4a1a7d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(94, 33, 156, 0.3);
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #666;
+}
+
+.login-link a {
+    color: #5e219c;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+
+.footer-text {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #999;
+    margin-top: 2rem;
+}
+
+
+.logo-cadastro {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+
+.logo-cadastro img {
+    width: 120px;
+    height: auto;
+}
+
+.logo-cadastro h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* ========== MENSAGENS DE ALERTA ========== */
+.alert {
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.alert-danger {
+    background-color: #fee;
+    color: #d32f2f;
+}
+
+.alert-danger i {
+    font-size: 1.2rem;
+}
+
+.alert-success {
+    background-color: #efe;
+    color: rgb(159, 76, 236);
+}
+
+.alert-success i {
+    font-size: 1.2rem;
+}
+
+.alert-message {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    display: none;
+}
+
+.alert-message.error {
+    background-color: #fee;
+    color: #c33;
+    border: 1px solid #fcc;
+    display: block;
+}
+
+.alert-message.success {
+    background-color: #efe;
+    color: rgb(159, 76, 236);
+    border: 1px solid rgb(235, 204, 255);
+    display: block;
+}
+
+/* ========== RESPONSIVIDADE - TABLETS E CELULARES ========== */
+@media (max-width: 768px) {
+    /* ========== WRAPPER EM MOBILE ========== */
+    .cadastro-wrapper {
+        flex-direction: column;
+    }
+
+    /* ========== SIDEBAR EM MOBILE ========== */
+    .cadastro-sidebar {
+        width: 100%;
+        padding: 2rem 1rem;
+        justify-content: flex-start;
+        min-height: auto;
+        position: relative;
+        height: auto;
+        overflow-y: visible;
+    }
+
+    /* ========== TÍTULO DA SIDEBAR EM MOBILE ========== */
+    .cadastro-sidebar h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    /* ========== CONTEÚDO EM MOBILE ========== */
+    .cadastro-content {
+        padding: 1.5rem;
+        margin-left: 0;
+    }
+
+    /* ========== TÍTULO DO CABEÇALHO EM MOBILE ========== */
+    .cadastro-form-header h1 {
+        font-size: 1.5rem;
+    }
+}
+
