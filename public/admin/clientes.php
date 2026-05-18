@@ -2,12 +2,25 @@
 require '../../backend/auth/validAdmin.php';
 require '../../config/database.php';
 
-$clientes = [
-    ['id' => 1, 'nome' => 'Ana Silva', 'email' => 'ana.silva@kaoart.com', 'telefone' => '(11) 91234-5678', 'tipo' => 'Administrador', 'status' => 'Ativo', 'dataCadastro' => '15/01/2024'],
-    ['id' => 2, 'nome' => 'Carlos Santos', 'email' => 'carlos.santos@kaoart.com', 'telefone' => '(11) 92345-6789', 'tipo' => 'Operador', 'status' => 'Ativo', 'dataCadastro' => '20/01/2024'],
-    ['id' => 3, 'nome' => 'Maria Oliveira', 'email' => 'maria.oliveira@kaoart.com', 'telefone' => '(11) 93456-7890', 'tipo' => 'Operador', 'status' => 'Inativo', 'dataCadastro' => '25/01/2024'],
-    ['id' => 4, 'nome' => 'João Ferreira', 'email' => 'joao.ferreira@kaoart.com', 'telefone' => '(11) 94567-8901', 'tipo' => 'Visualizador', 'status' => 'Ativo', 'dataCadastro' => '10/02/2024'],
-];
+$id = $_GET['id'];
+
+$sql = mysqli_query($conn, "SELECT * FROM usuarios");
+
+$clientes = [];
+
+while ($usuario = mysqli_fetch_assoc($sql)) {
+
+    $clientes[] = [
+            'id' => $usuario['id'],
+            'nome' => $usuario['nome_completo'],
+            'email' => $usuario['email'],
+            'telefone' => $usuario['telefone'],
+            'tipo' => $usuario['role'],
+            'status' => $usuario['status'],
+            'dataCadastro' => date('d/m/Y', strtotime($usuario['criado_em']))
+    ];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -183,7 +196,7 @@ $clientes = [
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
                                 <p class="text-muted small mb-2">Usuários Ativos</p>
-                                <p class="stat-value ativo"><?php echo count(array_filter($clientes, fn($c) => $c['status'] === 'Ativo')); ?></p>
+                                <p class="stat-value ativo"><?php echo count(array_filter($clientes, fn($c) => $c['status'] === 'active')); ?></p>
                             </div>
                             <div class="icon-box bg-success bg-opacity-10">
                                 <i class="bi bi-check-circle-fill text-success fs-4"></i>
@@ -197,7 +210,7 @@ $clientes = [
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
                                 <p class="text-muted small mb-2">Administradores</p>
-                                <p class="stat-value admin-count"><?php echo count(array_filter($clientes, fn($c) => $c['tipo'] === 'Administrador')); ?></p>
+                                <p class="stat-value admin-count"><?php echo count(array_filter($clientes, fn($c) => $c['tipo'] === 'admin')); ?></p>
                             </div>
                             <div class="icon-box bg-warning bg-opacity-10">
                                 <i class="bi bi-shield-fill text-warning fs-4"></i>
@@ -235,16 +248,16 @@ $clientes = [
                     <div class="col-md-3">
                         <select class="form-select border-0 bg-light" id="filterTipo">
                             <option value="">Filtrar por Tipo</option>
-                            <option value="Administrador">Administrador</option>
+                            <option value="admin">Administrador</option>
                             <option value="Operador">Operador</option>
-                            <option value="Visualizador">Visualizador</option>
+                            <option value="user">Usuário</option>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <select class="form-select border-0 bg-light" id="filterStatus">
                             <option value="">Filtrar por Status</option>
-                            <option value="Ativo">Ativo</option>
-                            <option value="Inativo">Inativo</option>
+                            <option value="active">Ativo</option>
+                            <option value="blocked">Bloqueado</option>
                         </select>
                     </div>
                 </div>

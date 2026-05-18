@@ -2,7 +2,7 @@
 $currentAdminPage = basename($_SERVER['PHP_SELF']);
 $adminPages = [
     'dashboard.php' => 'Visão Geral',
-    'produtos.php' => 'Produtos'
+    'produtos.php' => 'produtos'
 ];
 ?>
 

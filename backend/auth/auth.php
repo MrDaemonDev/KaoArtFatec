@@ -5,29 +5,31 @@ include "../../config/database.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $email = $_POST['email'];
+    $senha = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE name = '$username'";
+    $sql = "SELECT * FROM usuarios WHERE email = '$email'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) == 1) {
 
-        $user = mysqli_fetch_assoc($result);
+        $usuarios = mysqli_fetch_assoc($result);
 
-        if ($password == $user['password']) {
+        if ($senha == $usuarios['senha']) {
 
-            if ($user['status'] != 'active') {
+            if ($usuarios['status'] != 'active') {
                 die("Usuário bloqueado");
             }
 
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['role'] = $user['role'];
+            $_SESSION['user_id'] = $usuarios['id'];
+            $_SESSION['role'] = $usuarios['role'];
 
-            if ($user['role'] == 'admin') {
+            if ($usuarios['role'] == 'admin') {
                 header("Location: ../../public/admin/dashboard.php");
+                exit;
             } else {
                 header("Location: ../../public/produtos.php");
+                exit;
             }
 
         } else {

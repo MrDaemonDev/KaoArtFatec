@@ -1,46 +1,142 @@
-CREATE
-DATABASE kaoart;
+DROP DATABASE kaoart;
 
-USE
-kaoart;
+CREATE DATABASE IF NOT EXISTS kaoart;
 
-CREATE TABLE users
+USE kaoart;
+
+
+CREATE TABLE IF NOT EXISTS usuarios
 (
-    id         INT AUTO_INCREMENT PRIMARY KEY,
-    name       VARCHAR(100) NOT NULL,
-    email      VARCHAR(150) NOT NULL UNIQUE,
-    password   VARCHAR(255) NOT NULL,
-    role       ENUM('user','admin') NOT NULL DEFAULT 'user',
-    status     ENUM('active','blocked') NOT NULL DEFAULT 'active',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id            INT AUTO_INCREMENT PRIMARY KEY,
+
+    nome_completo VARCHAR(150) NOT NULL,
+    email         VARCHAR(150) NOT NULL UNIQUE,
+    telefone      VARCHAR(20)  NOT NULL,
+    empresa       VARCHAR(150),
+
+    endereco      VARCHAR(255) NOT NULL,
+    cep           VARCHAR(10)  NOT NULL,
+
+    senha         VARCHAR(100) NOT NULL,
+
+    role          ENUM ('admin', 'user')     DEFAULT 'user',
+    status        ENUM ('active', 'blocked') DEFAULT 'active',
+
+    criado_em     TIMESTAMP                  DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO users (name, email, password, role)
-VALUES ('admin',
-        'admin@email.com',
-        '123',
-        'admin');
 
-INSERT INTO users (name, email, password, role)
-VALUES ('user',
-        'user@email.com',
-        '123',
-        'user');
+INSERT INTO usuarios (nome_completo,
+                      email,
+                      telefone,
+                      empresa,
+                      endereco,
+                      cep,
+                      senha,
+                      role,
+                      status)
+VALUES ('Administrador',
+        'admin@teste.com',
+        '(11) 99999-9999',
+        'Empresa Teste',
+        'Rua Exemplo, 123 - São Paulo',
+        '01000-000',
+        'admin123',
+        'admin',
+        'active');
 
-CREATE TABLE produtos
+INSERT INTO usuarios (nome_completo,
+                      email,
+                      telefone,
+                      empresa,
+                      endereco,
+                      cep,
+                      senha,
+                      role,
+                      status)
+VALUES ('Usuário',
+        'usuario@teste.com',
+        '(11) 99999-9999',
+        'Empresa Teste',
+        'Rua Exemplo, 123 - São Paulo',
+        '01000-000',
+        'user123',
+        'user',
+        'active');
+
+CREATE TABLE IF NOT EXISTS produtos
 (
     id        INT AUTO_INCREMENT PRIMARY KEY,
-    nome      VARCHAR(100)   NOT NULL,
-    descricao VARCHAR(255),
+
+    nome      VARCHAR(150)   NOT NULL,
+    categoria VARCHAR(100)   NOT NULL,
+
+    descricao TEXT,
+
     preco     DECIMAL(10, 2) NOT NULL,
-    categoria VARCHAR(50)    NOT NULL,
-    imagem    VARCHAR(255),
-    unidade   VARCHAR(50)
+
+    estoque   INT            NOT NULL DEFAULT 0,
+
+    imagem    VARCHAR(255)   NOT NULL,
+
+    criado_em TIMESTAMP               DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO produtos (nome, descricao, preco, categoria, imagem, unidade)
-VALUES ('Camiseta Premium', '100% algodão, confortável e durável.', 49.90, 'camiseta', 'img/roupas/camisa6t.png', NULL),
-       ('Caneca Personalizada', 'Caneca com estampa personalizada.', 39.90, 'caneca', 'img/caneca/caneca2.jpeg', NULL),
-       ('Cartão de Visita', 'Ideal para divulgação.', 19.90, 'cartao', 'img/cartao/cartao1.png', '200 un'),
-       ('Caneca Personalizada', 'Porcelana com alta qualidade.', 29.90, 'caneca', 'img/caneca/caneca1.jpeg', NULL),
-       ('Máscara Personalizada', 'Máscara de tecido.', 29.90, 'mascara', 'img/mascara/mascara3.png', NULL);
+INSERT INTO produtos (nome,
+                      categoria,
+                      descricao,
+                      preco,
+                      estoque,
+                      imagem)
+VALUES ('Caneca Personalizada',
+        'Canecas',
+        'Caneca personalizada temática anime',
+        39.90,
+        15,
+        'img/caneca/caneca1.jpeg');
+
+CREATE TABLE pedidos
+(
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+
+    user_id     INT            NOT NULL,
+
+    total_valor DECIMAL(10, 2) NOT NULL,
+
+    status      ENUM (
+        'Pendente',
+        'Arte Aprovada',
+        'Em Produção',
+        'Enviado',
+        'Cancelado'
+        )                 DEFAULT 'Pendente',
+
+    data_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id)
+        REFERENCES usuarios (id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE itens_pedidos
+(
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+
+    pedido_id  INT            NOT NULL,
+
+    produto_id INT            NOT NULL,
+
+    quantidade INT            NOT NULL,
+
+    preco_unit DECIMAL(10, 2) NOT NULL,
+
+    tamanho    VARCHAR(10),
+
+    FOREIGN KEY (pedido_id)
+        REFERENCES pedidos (id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (produto_id)
+        REFERENCES produtos (id)
+        ON DELETE CASCADE
+);

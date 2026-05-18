@@ -30,8 +30,8 @@
     <h1>Login</h1>
     <form id="loginForm" action="../backend/auth/auth.php" method="POST">
       <div class="input-group">
-        <label for="username">Usuário</label>
-        <input type="text" id="username" name="username" placeholder="Digite seu usuário" required />
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Digite seu email" required />
       </div>
 
       <div class="input-group">
