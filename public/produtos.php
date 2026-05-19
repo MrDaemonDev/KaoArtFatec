@@ -138,9 +138,9 @@ include '../config/database.php';
                     <div class="col-md-3 col-sm-6 produto" data-category="<?php echo $produtos['categoria']; ?>"
                         data-id="<?php echo $produtos['id']; ?>">
                         <div class="card h-100 shadow-sm border border-2 rounded">
-                            <div class="ratio ratio-1x1">
+                            <div class="overflow-hidden">
                                 <img src="<?php echo $produtos['imagem']; ?>" alt="<?php echo $produtos['nome']; ?>"
-                                    class="card-img-top object-fit-cover rounded-top">
+                                    class="card-img-top standard-image-size rounded-top">
                             </div>
                             <div class="card-body text-center d-flex flex-column">
                                 <h5 class="card-title fs-6 fw-bold"><?php echo $produtos['nome']; ?></h5>

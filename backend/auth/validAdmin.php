@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../dashboard.php");
+    header("Location: ../index.php");
     exit;
 }
 

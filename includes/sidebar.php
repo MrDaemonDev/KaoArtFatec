@@ -7,51 +7,56 @@ $adminPages = [
 ?>
 
 <style>
-    body { 
-        background-color: #F8F9FA; 
-        overflow: hidden; 
+    body {
+        background-color: #F8F9FA;
+        overflow: hidden;
     }
-    
+
     .wrapper {
         display: flex;
         height: 100vh;
     }
-    
-    .sidebar-kao { 
-        background-color: #ab79d1; 
+
+    .sidebar-kao {
+        background-color: #ab79d1;
         width: 260px;
         flex-shrink: 0;
         display: flex;
         flex-direction: column;
-        box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+        box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
         z-index: 1000;
     }
+
     .sidebar-menu {
         flex-grow: 1;
         overflow-y: auto;
     }
-    .nav-link { 
-        color: rgba(255, 255, 255, 0.8); 
+
+    .nav-link {
+        color: rgba(255, 255, 255, 0.8);
         padding: 12px 20px;
         margin: 4px 16px;
         border-radius: 8px;
         transition: all 0.2s;
     }
-    .nav-link:hover { 
-        color: #ffffff; 
-        background-color: rgba(255,255,255,0.1); 
+
+    .nav-link:hover {
+        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.1);
     }
-    .nav-link.active { 
-        background-color: #b892ff; 
-        color: #5e219c !important; 
-        font-weight: bold; 
+
+    .nav-link.active {
+        background-color: #b892ff;
+        color: #5e219c !important;
+        font-weight: bold;
     }
-    
+
     .top-header {
         background-color: #ffffff;
         border-bottom: 1px solid #e9ecef;
         z-index: 900;
     }
+
     .search-bar {
         background-color: #f8f9fa;
         border: 1px solid #dee2e6;
@@ -60,9 +65,11 @@ $adminPages = [
         width: 100%;
         max-width: 400px;
     }
+
     .search-wrapper {
         position: relative;
     }
+
     .search-wrapper .bi-search {
         position: absolute;
         left: 12px;
@@ -82,7 +89,7 @@ $adminPages = [
         color: white;
         background-color: #b892ff;
     }
-    
+
     .btn-roxo-sair {
         background-color: #b892ff;
         color: #5e219c;
@@ -90,9 +97,10 @@ $adminPages = [
         border: none;
         transition: all 0.3s ease;
     }
+
     .btn-roxo-sair:hover {
         background-color: #cdaeff;
-        color: #310c59; 
+        color: #310c59;
     }
 
     .main-content {
@@ -101,6 +109,7 @@ $adminPages = [
         flex-direction: column;
         overflow: hidden;
     }
+
     .scrollable-content {
         flex-grow: 1;
         overflow-y: auto;
@@ -119,24 +128,29 @@ $adminPages = [
 
 <aside class="sidebar-kao">
     <div class="p-4 border-bottom border-secondary border-opacity-25 d-flex align-items-center gap-3">
-        <img src="../img/etc/passaroKao.png" alt="KaoArt Logo" width="80">
+        <a href="../index.php" style="text-decoration: none;">
+            <img src="../img/etc/passaroKao.png" alt="KaoArt Logo" width="80" style="cursor: pointer;">
+        </a>
         <h4 class="text-white mb-0 fs-5">KaoArt Admin</h4>
     </div>
-    
+
     <nav class="sidebar-menu py-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link <?php echo $currentAdminPage == 'dashboard.php' ? 'active' : ''; ?>" href="dashboard.php">
+                <a class="nav-link <?php echo $currentAdminPage == 'dashboard.php' ? 'active' : ''; ?>"
+                    href="dashboard.php">
                     <i class="bi bi-grid-1x2 me-2"></i> Visão Geral
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?php echo $currentAdminPage == 'produtos.php' ? 'active' : ''; ?>" href="produtos.php">
+                <a class="nav-link <?php echo $currentAdminPage == 'produtos.php' ? 'active' : ''; ?>"
+                    href="produtos.php">
                     <i class="bi bi-box-seam me-2"></i> Produtos
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?php echo $currentAdminPage == 'pedidos.php' ? 'active' : ''; ?>" href="pedidos.php">
+                <a class="nav-link <?php echo $currentAdminPage == 'pedidos.php' ? 'active' : ''; ?>"
+                    href="pedidos.php">
                     <i class="bi bi-cart3 me-2"></i> Pedidos
                 </a>
             </li>
@@ -146,12 +160,14 @@ $adminPages = [
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?php echo $currentAdminPage == 'estoque.php' ? 'active' : ''; ?>" href="estoque.php">
+                <a class="nav-link <?php echo $currentAdminPage == 'estoque.php' ? 'active' : ''; ?>"
+                    href="estoque.php">
                     <i class="bi bi-shop me-2"></i> Estoque
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?php echo $currentAdminPage == 'clientes.php' ? 'active' : ''; ?>" href="clientes.php">
+                <a class="nav-link <?php echo $currentAdminPage == 'clientes.php' ? 'active' : ''; ?>"
+                    href="clientes.php">
                     <i class="bi bi-people me-2"></i> Clientes
                 </a>
             </li>

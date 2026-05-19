@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS usuarios
     status        ENUM ('active', 'blocked') DEFAULT 'active',
 
     criado_em     TIMESTAMP                  DEFAULT CURRENT_TIMESTAMP
-);
+    );
 
 
 INSERT INTO usuarios (nome_completo,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS produtos
     imagem    VARCHAR(255)   NOT NULL,
 
     criado_em TIMESTAMP               DEFAULT CURRENT_TIMESTAMP
-);
+    );
 
 INSERT INTO produtos (nome,
                       categoria,
