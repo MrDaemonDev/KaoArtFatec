@@ -33,15 +33,56 @@ try {
 
   $pedido_id = mysqli_insert_id($conn);
 
+  // Caminho para armazenar as artes enviadas
+  $uploadDir = __DIR__ . '/../../../public/uploads/artes';
+  if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0755, true);
+  }
+
   // INSERT dos itens do pedido
-  foreach ($carrinho as $item) {
+  foreach ($carrinho as $index => $item) {
     $produto_id = $item['id'];
     $quantidade = $item['quantidade'];
     $preco_unit = floatval($item['preco']);
     $tamanho = isset($item['tamanho']) ? "'" . mysqli_real_escape_string($conn, $item['tamanho']) . "'" : "NULL";
+    $observacoes = isset($item['observacoes']) && trim($item['observacoes']) !== ''
+      ? "'" . mysqli_real_escape_string($conn, $item['observacoes']) . "'"
+      : "NULL";
+    $arte_personalizada = "NULL";
+    $arte_status = "'Pendente'";
 
-    $sql_item = "INSERT INTO itens_pedidos (pedido_id, produto_id, quantidade, preco_unit, tamanho) 
-                     VALUES ($pedido_id, $produto_id, $quantidade, $preco_unit, $tamanho)";
+    $fileKey = 'arte_' . $index;
+    if (isset($_FILES[$fileKey]) && $_FILES[$fileKey]['error'] !== UPLOAD_ERR_NO_FILE) {
+      if ($_FILES[$fileKey]['error'] !== UPLOAD_ERR_OK) {
+        throw new Exception('Erro no envio do arquivo de arte: ' . $_FILES[$fileKey]['error']);
+      }
+
+      $allowedTypes = [
+        'image/png' => 'png',
+        'image/jpeg' => 'jpg',
+        'image/jpg' => 'jpg',
+        'image/webp' => 'webp'
+      ];
+      $fileType = mime_content_type($_FILES[$fileKey]['tmp_name']);
+
+      if (!array_key_exists($fileType, $allowedTypes)) {
+        throw new Exception('Formato de imagem inválido. Use PNG, JPG ou WEBP.');
+      }
+
+      $extension = $allowedTypes[$fileType];
+      $safeName = preg_replace('/[^a-zA-Z0-9_-]/', '_', pathinfo($_FILES[$fileKey]['name'], PATHINFO_FILENAME));
+      $newFileName = $safeName . '_' . time() . '.' . $extension;
+      $destination = $uploadDir . '/' . $newFileName;
+
+      if (!move_uploaded_file($_FILES[$fileKey]['tmp_name'], $destination)) {
+        throw new Exception('Erro ao salvar o arquivo de arte.');
+      }
+
+      $arte_personalizada = "'" . mysqli_real_escape_string($conn, $newFileName) . "'";
+    }
+
+    $sql_item = "INSERT INTO itens_pedidos (pedido_id, produto_id, quantidade, preco_unit, tamanho, observacoes, arte_personalizada, arte_status) 
+                     VALUES ($pedido_id, $produto_id, $quantidade, $preco_unit, $tamanho, $observacoes, $arte_personalizada, $arte_status)";
 
     if (!mysqli_query($conn, $sql_item)) {
       throw new Exception("Erro ao inserir item do pedido: " . mysqli_error($conn));

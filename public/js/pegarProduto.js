@@ -28,6 +28,7 @@ botoes.forEach((btn) => {
         preco: parseFloat(preco),
         img,
         quantidade: 1,
+        observacoes: "",
       });
     }
 

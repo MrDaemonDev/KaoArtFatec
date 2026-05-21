@@ -1,3 +1,8 @@
+<?php
+require '../../backend/auth/validAdmin.php';
+require '../../config/database.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -114,78 +119,138 @@
 
                 <!-- GRID ARTES -->
                 <div class="row g-4">
-                    <!-- CARD 1 -->
-                    <div class="col-md-4">
-                        <div class="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
-                            <div class="position-relative ratio ratio-16x9">
-                                <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c"
-                                    class="object-fit-cover w-100 h-100" alt="Arte pendente">
-                                <div class="position-absolute top-0 end-0 p-3">
-                                    <span
-                                        class="badge bg-warning text-dark px-3 py-2 rounded-pill shadow-sm">Pendente</span>
+                    <?php
+                    $sql = "SELECT ip.*, pr.nome AS produto_nome, ped.user_id, u.nome_completo
+                            FROM itens_pedidos ip
+                            JOIN produtos pr ON ip.produto_id = pr.id
+                            JOIN pedidos ped ON ip.pedido_id = ped.id
+                            JOIN usuarios u ON ped.user_id = u.id
+                            WHERE ip.arte_personalizada IS NOT NULL
+                            ORDER BY ip.id DESC";
+
+                    $result = mysqli_query($conn, $sql);
+
+                    if (!$result || mysqli_num_rows($result) === 0) {
+                        echo '<div class="col-12"><p class="text-muted">Nenhuma arte enviada ainda.</p></div>';
+                    } else {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $status = $row['arte_status'] ?: 'Pendente';
+                            $badgeClass = $status === 'Aprovada' ? 'bg-success text-white' : ($status === 'Reprovada' ? 'bg-danger text-white' : 'bg-warning text-dark');
+                            $imgPath = '../uploads/artes/' . htmlspecialchars($row['arte_personalizada'], ENT_QUOTES, 'UTF-8');
+                            ?>
+                            <div class="col-md-4">
+                                <div class="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
+                                    <div class="position-relative ratio ratio-16x9">
+                                        <img src="<?php echo $imgPath; ?>" class="object-fit-cover w-100 h-100"
+                                            alt="Arte enviada">
+                                        <div class="position-absolute top-0 end-0 p-3">
+                                            <span
+                                                class="badge <?php echo $badgeClass; ?> shadow-sm px-3 py-2 rounded-pill"><?php echo htmlspecialchars($status, ENT_QUOTES, 'UTF-8'); ?></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body p-4 d-flex flex-column">
+                                        <small class="text-muted fw-semibold mb-1">Pedido
+                                            #<?php echo intval($row['pedido_id']); ?></small>
+                                        <h5 class="card-title fw-bold mb-1">
+                                            <?php echo htmlspecialchars($row['nome_completo'], ENT_QUOTES, 'UTF-8'); ?></h5>
+                                        <p class="text-muted small mb-3">
+                                            <?php echo htmlspecialchars($row['produto_nome'], ENT_QUOTES, 'UTF-8'); ?></p>
+
+                                        <div class="bg-light p-3 rounded-3 mb-4 flex-grow-1">
+                                            <p class="small mb-0 text-secondary">
+                                                <i
+                                                    class="bi bi-chat-left-text me-2"></i><?php echo nl2br(htmlspecialchars($row['observacoes'] ?: 'Sem observações', ENT_QUOTES, 'UTF-8')); ?>
+                                            </p>
+                                        </div>
+
+                                        <div class="d-flex gap-2 mt-auto">
+                                            <button class="btn btn-light flex-grow-1 border" data-bs-toggle="modal"
+                                                data-bs-target="#modalArte<?php echo $row['id']; ?>">
+                                                <i class="bi bi-eye"></i> Ver
+                                            </button>
+
+                                            <form method="post"
+                                                action="detalhes.php?id=<?php echo intval($row['pedido_id']); ?>"
+                                                class="d-flex gap-2 flex-grow-1">
+                                                <input type="hidden" name="item_id" value="<?php echo intval($row['id']); ?>">
+                                                <button type="submit" name="art_status_action" value="aprovar"
+                                                    class="btn btn-success flex-grow-1">
+                                                    <i class="bi bi-check-lg"></i> Aprovar
+                                                </button>
+                                                <button type="submit" name="art_status_action" value="reprovar"
+                                                    class="btn btn-outline-danger flex-grow-1">
+                                                    <i class="bi bi-x-lg"></i> Rejeitar
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="card-body p-4 d-flex flex-column">
-                                <small class="text-muted fw-semibold mb-1">Pedido #2024-001</small>
-                                <h5 class="card-title fw-bold mb-1">Maria Silva</h5>
-                                <p class="text-muted small mb-3">Camiseta Branca - M</p>
+                            <!-- Modal de visualização individual -->
+                            <div class="modal fade" id="modalArte<?php echo $row['id']; ?>" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content border-0 shadow">
+                                        <div class="modal-header border-bottom-0 pb-0 pt-4 px-4">
+                                            <h5 class="modal-title fw-bold">Detalhes da Arte</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <div class="row g-4">
+                                                <div class="col-lg-7">
+                                                    <img src="<?php echo $imgPath; ?>"
+                                                        class="img-fluid rounded-4 shadow-sm w-100" alt="Imagem ampliada">
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <div class="bg-light rounded-4 p-4 h-100 d-flex flex-column">
+                                                        <h6 class="fw-bold mb-3 text-uppercase text-muted small">Informações
+                                                        </h6>
+                                                        <p class="mb-2"><strong class="text-dark">Cliente:</strong> <span
+                                                                class="text-secondary"><?php echo htmlspecialchars($row['nome_completo'], ENT_QUOTES, 'UTF-8'); ?></span>
+                                                        </p>
+                                                        <p class="mb-2"><strong class="text-dark">Produto:</strong> <span
+                                                                class="text-secondary"><?php echo htmlspecialchars($row['produto_nome'], ENT_QUOTES, 'UTF-8'); ?></span>
+                                                        </p>
+                                                        <p class="mb-4"><strong class="text-dark">Pedido:</strong> <span
+                                                                class="text-secondary">#<?php echo intval($row['pedido_id']); ?></span>
+                                                        </p>
 
-                                <div class="bg-light p-3 rounded-3 mb-4 flex-grow-1">
-                                    <p class="small mb-0 text-secondary">
-                                        <i class="bi bi-chat-left-text me-2"></i>Logo centralizada na frente
-                                    </p>
-                                </div>
+                                                        <h6 class="fw-bold mb-3 text-uppercase text-muted small">Instruções</h6>
+                                                        <div class="bg-white p-3 rounded-3 border mb-4 shadow-sm">
+                                                            <p class="small text-muted mb-0">
+                                                                <?php echo nl2br(htmlspecialchars($row['observacoes'] ?: 'Sem instruções', ENT_QUOTES, 'UTF-8')); ?>
+                                                            </p>
+                                                        </div>
 
-                                <div class="d-flex gap-2 mt-auto">
-                                    <button class="btn btn-light flex-grow-1 border" data-bs-toggle="modal"
-                                        data-bs-target="#modalArte">
-                                        <i class="bi bi-eye"></i> Ver
-                                    </button>
-                                    <button class="btn btn-success flex-grow-1" data-bs-toggle="modal"
-                                        data-bs-target="#modalComentario">
-                                        <i class="bi bi-check-lg"></i> Aprovar
-                                    </button>
-                                    <button class="btn btn-outline-danger flex-grow-1" data-bs-toggle="modal"
-                                        data-bs-target="#modalComentario">
-                                        <i class="bi bi-x-lg"></i> Rejeitar
-                                    </button>
+                                                        <div class="mt-auto d-grid gap-2">
+                                                            <form method="post"
+                                                                action="detalhes.php?id=<?php echo intval($row['pedido_id']); ?>">
+                                                                <input type="hidden" name="item_id"
+                                                                    value="<?php echo intval($row['id']); ?>">
+                                                                <button class="btn btn-success fw-medium"
+                                                                    name="art_status_action" value="aprovar">
+                                                                    <i class="bi bi-check-circle me-2"></i>Aprovar Arte
+                                                                </button>
+                                                                <button class="btn btn-outline-danger fw-medium mt-2"
+                                                                    name="art_status_action" value="reprovar">
+                                                                    <i class="bi bi-x-circle me-2"></i>Rejeitar Arte
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- CARD 2 -->
-                    <div class="col-md-4">
-                        <div class="card shadow-sm border-0 rounded-4 h-100 overflow-hidden">
-                            <div class="position-relative ratio ratio-16x9">
-                                <img src="https://images.unsplash.com/photo-1531346878377-a5be20888e57"
-                                    class="object-fit-cover w-100 h-100" alt="Arte rejeitada">
-                                <div class="position-absolute top-0 end-0 p-3">
-                                    <span class="badge bg-danger shadow-sm px-3 py-2 rounded-pill">Rejeitada</span>
-                                </div>
-                            </div>
-
-                            <div class="card-body p-4 d-flex flex-column">
-                                <small class="text-muted fw-semibold mb-1">Pedido #2024-005</small>
-                                <h5 class="card-title fw-bold mb-1">Carla Mendes</h5>
-                                <p class="text-muted small mb-3">Caderno Personalizado</p>
-
-                                <div class="bg-light p-3 rounded-3 mb-4 flex-grow-1">
-                                    <p class="small mb-0 text-secondary">
-                                        <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>Imagem com baixa
-                                        qualidade
-                                    </p>
-                                </div>
-
-                                <div class="mt-auto">
-                                    <button class="btn btn-info w-100 text-white">
-                                        <i class="bi bi-arrow-repeat me-2"></i>Solicitar revisão
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            <?php
+                        }
+                    }
+                    ?>
                 </div>
 
             </main>

@@ -15,6 +15,7 @@ include '../config/database.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <script src="js/pegarProduto.js" defer></script>
+    <script src="js/alertas.js" defer></script>
 
     <title>Produtos - KaoArt</title>
 
@@ -71,13 +72,21 @@ include '../config/database.php';
 
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <div class="d-flex align-items-center gap-3 ms-3 border-start ps-4">
-                            <button class="btn btn-outline-light btn-sm position-relative" type="button">
-                                <i class="bi bi-bell"></i>
-                                <span
-                                    class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
-                                    <span class="visually-hidden">Novos alertas</span>
-                                </span>
-                            </button>
+                            <div class="dropdown">
+                                <button id="alertButton"
+                                    class="btn btn-outline-light btn-sm position-relative dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-bell"></i>
+                                    <span id="alertBadgeCount"
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                        style="display:none;"></span>
+                                </button>
+                                <ul id="alertList" class="dropdown-menu dropdown-menu-end shadow border-0 mt-2"
+                                    style="min-width: 280px;">
+                                    <li><span id="alertFallback" class="dropdown-item small text-muted">Carregando
+                                            alertas...</span></li>
+                                </ul>
+                            </div>
 
                             <div class="dropdown ms-1">
                                 <button class="d-flex align-items-center text-white border-0 bg-transparent p-0"

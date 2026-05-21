@@ -120,17 +120,20 @@ CREATE TABLE pedidos
 
 CREATE TABLE itens_pedidos
 (
-    id         INT AUTO_INCREMENT PRIMARY KEY,
+    id                  INT AUTO_INCREMENT PRIMARY KEY,
 
-    pedido_id  INT            NOT NULL,
+    pedido_id           INT            NOT NULL,
 
-    produto_id INT            NOT NULL,
+    produto_id          INT            NOT NULL,
 
-    quantidade INT            NOT NULL,
+    quantidade          INT            NOT NULL,
 
-    preco_unit DECIMAL(10, 2) NOT NULL,
+    preco_unit          DECIMAL(10, 2) NOT NULL,
 
-    tamanho    VARCHAR(10),
+    tamanho             VARCHAR(10),
+    observacoes         TEXT,
+    arte_personalizada  VARCHAR(255),
+    arte_status         ENUM('Pendente', 'Aprovada', 'Reprovada') DEFAULT 'Pendente',
 
     FOREIGN KEY (pedido_id)
         REFERENCES pedidos (id)

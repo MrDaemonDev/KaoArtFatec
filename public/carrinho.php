@@ -13,6 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <script src="js/alertas.js" defer></script>
     <style>
         html,
         body {
@@ -72,13 +73,21 @@ if (session_status() === PHP_SESSION_NONE) {
 
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <div class="d-flex align-items-center gap-3 ms-3 border-start ps-4">
-                            <button class="btn btn-outline-light btn-sm position-relative" type="button">
-                                <i class="bi bi-bell"></i>
-                                <span
-                                    class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
-                                    <span class="visually-hidden">Novos alertas</span>
-                                </span>
-                            </button>
+                            <div class="dropdown">
+                                <button id="alertButton"
+                                    class="btn btn-outline-light btn-sm position-relative dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-bell"></i>
+                                    <span id="alertBadgeCount"
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                        style="display:none;"></span>
+                                </button>
+                                <ul id="alertList" class="dropdown-menu dropdown-menu-end shadow border-0 mt-2"
+                                    style="min-width: 280px;">
+                                    <li><span id="alertFallback" class="dropdown-item small text-muted">Carregando
+                                            alertas...</span></li>
+                                </ul>
+                            </div>
 
                             <div class="dropdown ms-1">
                                 <button class="d-flex align-items-center text-white border-0 bg-transparent p-0"
@@ -207,6 +216,16 @@ if (session_status() === PHP_SESSION_NONE) {
                         R$ ${item.preco.toFixed(2).replace('.', ',')}
                     </p>
                     ${selectTamanho}
+                    <div class="mt-3">
+                        <label class="form-label small mb-1">Arte personalizada (opcional)</label>
+                        <input type="file" class="form-control form-control-sm art-file" data-index="${index}"
+                               accept="image/png, image/jpeg, image/webp">
+                    </div>
+                    <div class="mt-2">
+                        <label class="form-label small mb-1">Observações para a arte (opcional)</label>
+                        <textarea class="form-control form-control-sm observacao-item" data-index="${index}"
+                                  rows="2" placeholder="Ex.: Quero o logo no canto esquerdo...">${item.observacoes || ''}</textarea>
+                    </div>
                 </div>
                 <div class="col-2 text-center">
                     <!-- Botões de quantidade -->
@@ -251,6 +270,13 @@ if (session_status() === PHP_SESSION_NONE) {
                 let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
                 let index = e.target.getAttribute('data-index');
                 carrinho[index].tamanho = e.target.value;
+                localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            }
+
+            if (e.target.classList.contains('observacao-item')) {
+                let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+                let index = e.target.getAttribute('data-index');
+                carrinho[index].observacoes = e.target.value;
                 localStorage.setItem('carrinho', JSON.stringify(carrinho));
             }
         });
@@ -310,6 +336,13 @@ if (session_status() === PHP_SESSION_NONE) {
             const formData = new FormData();
             formData.append('carrinho', JSON.stringify(carrinho));
             formData.append('total', total);
+
+            carrinho.forEach((item, index) => {
+                const fileInput = document.querySelector(`.art-file[data-index="${index}"]`);
+                if (fileInput && fileInput.files.length > 0) {
+                    formData.append(`arte_${index}`, fileInput.files[0]);
+                }
+            });
 
             fetch('../backend/functions/pedidos/criarPedido.php', {
                 method: 'POST',
