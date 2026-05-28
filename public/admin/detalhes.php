@@ -35,6 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['ar
             if ($rowTodosAprovados && intval($rowTodosAprovados['total']) === 0) {
                 mysqli_query($conn, "UPDATE pedidos SET status = 'Arte Aprovada' WHERE id = $pedidoId");
             }
+        } elseif ($novoStatusArte === 'Reprovada') {
+            header('Location: artes.php');
+            exit;
         }
     } else {
         $statusMessage = 'Erro ao atualizar status da arte: ' . mysqli_error($conn);
@@ -356,8 +359,7 @@ function formatMoney($amount)
                                         <?php if (!empty($item['arte_personalizada'])): ?>
                                             <div class="arte-preview mb-3">
                                                 <img src="../uploads/artes/<?php echo htmlspecialchars($item['arte_personalizada'], ENT_QUOTES, 'UTF-8'); ?>"
-                                                     alt="Arte do cliente" class="w-100 h-100"
-                                                     style="object-fit: cover;">
+                                                    alt="Arte do cliente" class="w-100 h-100" style="object-fit: cover;">
                                             </div>
                                         <?php else: ?>
                                             <div class="p-3 bg-light rounded-3 text-center text-muted mb-3">
@@ -370,26 +372,29 @@ function formatMoney($amount)
                                 <!-- Observações -->
                                 <div class="p-3 bg-light rounded-3 mb-4">
                                     <p class="mb-2" style="font-size: 12px; color: #6c757d;">Observações do Cliente:</p>
-                                    <p class="mb-0" style="font-size: 14px; color: #212529;"><?php echo nl2br(htmlspecialchars($item['observacoes'] ?: 'Nenhuma observação enviada.', ENT_QUOTES, 'UTF-8')); ?></p>
+                                    <p class="mb-0" style="font-size: 14px; color: #212529;">
+                                        <?php echo nl2br(htmlspecialchars($item['observacoes'] ?: 'Nenhuma observação enviada.', ENT_QUOTES, 'UTF-8')); ?>
+                                    </p>
 
                                 </div>
 
                                 <!-- Approval Buttons -->
                                 <div class="row g-3 mb-4">
-                                    <form method="post" action="detalhes.php?id=<?php echo $pedido['id']; ?>" class="d-flex w-100 gap-3">
+                                    <form method="post" action="detalhes.php?id=<?php echo $pedido['id']; ?>"
+                                        class="d-flex w-100 gap-3">
 
                                         <input type="hidden" name="item_id" value="<?php echo $item['id']; ?>">
 
                                         <div class="col-6 p-0">
                                             <button type="submit" name="art_status_action" value="aprovar"
-                                                    class="btn btn-aprovar w-100">
+                                                class="btn btn-aprovar w-100">
                                                 <i class="bi bi-check-lg me-2"></i>Aprovar Arte
                                             </button>
                                         </div>
 
                                         <div class="col-6 p-0">
                                             <button type="submit" name="art_status_action" value="reprovar"
-                                                    class="btn btn-outline-secondary btn-rejeitar w-100">
+                                                class="btn btn-outline-secondary btn-rejeitar w-100">
                                                 <i class="bi bi-x-lg me-2"></i>Solicitar Alteração
                                             </button>
                                         </div>

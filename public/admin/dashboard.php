@@ -35,6 +35,11 @@ LIMIT 10
 ";
 $resultUltimosPedidos = mysqli_query($conn, $sqlUltimosPedidos);
 
+$sqlArtesPendentes = "SELECT COUNT(*) AS total FROM itens_pedidos WHERE arte_personalizada IS NOT NULL AND (arte_status IS NULL OR arte_status = 'Pendente')";
+$result = mysqli_query($conn, $sqlArtesPendentes);
+
+$artesPendentes = $result ? (int) mysqli_fetch_assoc($result)['total'] : 0;
+
 function getStatusBadgeClass($status)
 {
     switch ($status) {
@@ -135,7 +140,9 @@ function formatMoney($amount)
                             <div class="card-body d-flex justify-content-between align-items-center p-4">
                                 <div>
                                     <p class="text-muted mb-1 small fw-semibold">Artes para Aprovar</p>
-                                    <h3 class="mb-0 text-dark fw-bold">8</h3>
+                                    <h3 class="mb-0 text-dark fw-bold">
+                                        <?php echo $artesPendentes; ?>
+                                    </h3>
                                 </div>
                                 <div class="icon-box bg-primary bg-opacity-10">
                                     <i class="bi bi-image text-primary fs-4"></i>

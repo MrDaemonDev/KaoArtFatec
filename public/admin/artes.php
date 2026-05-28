@@ -1,6 +1,23 @@
 <?php
 require '../../backend/auth/validAdmin.php';
 require '../../config/database.php';
+
+// Contar artes por status
+$sqlPendentes = "SELECT COUNT(*) AS total FROM itens_pedidos WHERE arte_personalizada IS NOT NULL AND (arte_status IS NULL OR arte_status = 'Pendente')";
+$resultPendentes = mysqli_query($conn, $sqlPendentes);
+$artesPendentes = $resultPendentes ? (int) mysqli_fetch_assoc($resultPendentes)['total'] : 0;
+
+$sqlAprovadas = "SELECT COUNT(*) AS total FROM itens_pedidos WHERE arte_personalizada IS NOT NULL AND arte_status = 'Aprovada'";
+$resultAprovadas = mysqli_query($conn, $sqlAprovadas);
+$artesAprovadas = $resultAprovadas ? (int) mysqli_fetch_assoc($resultAprovadas)['total'] : 0;
+
+$sqlEmRevisao = "SELECT COUNT(*) AS total FROM itens_pedidos WHERE arte_personalizada IS NOT NULL AND arte_status = 'Em Revisão'";
+$resultEmRevisao = mysqli_query($conn, $sqlEmRevisao);
+$artesEmRevisao = $resultEmRevisao ? (int) mysqli_fetch_assoc($resultEmRevisao)['total'] : 0;
+
+$sqlRejeitadas = "SELECT COUNT(*) AS total FROM itens_pedidos WHERE arte_personalizada IS NOT NULL AND arte_status = 'Reprovada'";
+$resultRejeitadas = mysqli_query($conn, $sqlRejeitadas);
+$artesRejeitadas = $resultRejeitadas ? (int) mysqli_fetch_assoc($resultRejeitadas)['total'] : 0;
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +77,7 @@ require '../../config/database.php';
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
                                     <p class="text-muted small mb-2">Pendentes</p>
-                                    <p class="fs-2 fw-bold text-warning mb-0">2</p>
+                                    <p class="fs-2 fw-bold text-warning mb-0"><?php echo $artesPendentes; ?></p>
                                 </div>
                                 <div
                                     class="bg-warning bg-opacity-10 text-warning rounded-3 p-3 d-flex align-items-center justify-content-center">
@@ -75,7 +92,7 @@ require '../../config/database.php';
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
                                     <p class="text-muted small mb-2">Aprovadas</p>
-                                    <p class="fs-2 fw-bold text-success mb-0">1</p>
+                                    <p class="fs-2 fw-bold text-success mb-0"><?php echo $artesAprovadas; ?></p>
                                 </div>
                                 <div
                                     class="bg-success bg-opacity-10 text-success rounded-3 p-3 d-flex align-items-center justify-content-center">
@@ -90,7 +107,7 @@ require '../../config/database.php';
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
                                     <p class="text-muted small mb-2">Em Revisão</p>
-                                    <p class="fs-2 fw-bold text-info mb-0">1</p>
+                                    <p class="fs-2 fw-bold text-info mb-0"><?php echo $artesEmRevisao; ?></p>
                                 </div>
                                 <div
                                     class="bg-info bg-opacity-10 text-info rounded-3 p-3 d-flex align-items-center justify-content-center">
@@ -105,7 +122,7 @@ require '../../config/database.php';
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
                                     <p class="text-muted small mb-2">Rejeitadas</p>
-                                    <p class="fs-2 fw-bold text-danger mb-0">1</p>
+                                    <p class="fs-2 fw-bold text-danger mb-0"><?php echo $artesRejeitadas; ?></p>
                                 </div>
                                 <div
                                     class="bg-danger bg-opacity-10 text-danger rounded-3 p-3 d-flex align-items-center justify-content-center">
@@ -125,7 +142,7 @@ require '../../config/database.php';
                             JOIN produtos pr ON ip.produto_id = pr.id
                             JOIN pedidos ped ON ip.pedido_id = ped.id
                             JOIN usuarios u ON ped.user_id = u.id
-                            WHERE ip.arte_personalizada IS NOT NULL
+                            WHERE ip.arte_personalizada IS NOT NULL AND (ip.arte_status IS NULL OR ip.arte_status <> 'Reprovada')
                             ORDER BY ip.id DESC";
 
                     $result = mysqli_query($conn, $sql);
@@ -153,9 +170,11 @@ require '../../config/database.php';
                                         <small class="text-muted fw-semibold mb-1">Pedido
                                             #<?php echo intval($row['pedido_id']); ?></small>
                                         <h5 class="card-title fw-bold mb-1">
-                                            <?php echo htmlspecialchars($row['nome_completo'], ENT_QUOTES, 'UTF-8'); ?></h5>
+                                            <?php echo htmlspecialchars($row['nome_completo'], ENT_QUOTES, 'UTF-8'); ?>
+                                        </h5>
                                         <p class="text-muted small mb-3">
-                                            <?php echo htmlspecialchars($row['produto_nome'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                            <?php echo htmlspecialchars($row['produto_nome'], ENT_QUOTES, 'UTF-8'); ?>
+                                        </p>
 
                                         <div class="bg-light p-3 rounded-3 mb-4 flex-grow-1">
                                             <p class="small mb-0 text-secondary">
